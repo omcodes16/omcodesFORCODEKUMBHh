@@ -1,73 +1,39 @@
-# Welcome to your Lovable project
+# 🚀 JEC-RESOLVE 
+**1st Prize Winner - Open Innovation Category | CODE KUMBH 2.0 Hackathon**
 
-## Project info
+![JEC-RESOLVE Banner](https://via.placeholder.com/1000x300/000a12/00ff00?text=JEC-RESOLVE+|+Smart+Grievance+Ecosystem)
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+> **JEC-RESOLVE** is an enterprise-grade 'Smart Grievance Ecosystem' designed to bring 100% transparency, accountability, and speed to institutional problem-solving. Built during a 24-hour hackathon, this platform replaces outdated, opaque complaint systems with a dynamic digital governance network.
 
-## How can I edit this code?
+## 🏆 The Achievement
+Built by team **The Code Matrix** at the CODE KUMBH 2.0 Hackathon (JEC Jabalpur). 
+Secured the **Best in Open Innovation** award out of numerous competing teams.
 
-There are several ways of editing your application.
+---
 
-**Use Lovable**
+## 🔥 Core Engine & Features
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+Our architecture ensures no complaint gets lost or delayed. We engineered four critical pillars:
 
-Changes made via Lovable will be committed automatically to this repo.
+* 🎯 **Smart Routing:** Eliminates middleman delays. The algorithm automatically assigns student tickets directly to the exact department authority.
+* ⏳ **SLA Time-Locks:** Authorities must set a strict expected resolution date. Until this deadline passes, the escalation system is "time-locked" to prevent spamming.
+* 🚀 **Auto-Escalation Matrix:** The ultimate accountability tool. If a ticket is unresolved past the deadline, it automatically bypasses local admins and escalates up a 4-tier hierarchy: `Level 1 Admin ➡️ Dept Head ➡️ Branch HOD ➡️ Principal`.
+* 🌍 **Public Campus Ledger:** Complete transparency. Every open issue is mirrored on a live public feed so the entire campus can track what's broken and who is fixing it.
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 💻 Tech Stack & UI/UX
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+* **Frontend:** React.js, Tailwind CSS
+* **Backend/Database:** Supabase (PostgreSQL, Row Level Security)
+* **Aesthetic:** High-Tech 'Cyber-Terminal' UI (Azure Black core, dark glassmorphism, neon-green/yellow accents for data visualization).
 
-Follow these steps:
+---
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## 🛠️ Local Setup & Installation
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+To run JEC-RESOLVE locally on your machine:
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+1. **Clone the repository:**
+   ```bash
+   git clone [https://github.com/omcodes16/omcodesFORCODEKUMBHh.git](https://github.com/omcodes16/omcodesFORCODEKUMBHh.git)
