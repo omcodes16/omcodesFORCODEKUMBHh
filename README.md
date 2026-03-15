@@ -1,13 +1,13 @@
 # 🚀 JEC-RESOLVE 
 **1st Prize Winner - Open Innovation Category | CODE KUMBH 2.0 Hackathon**
 
-![JEC-RESOLVE Banner](https://via.placeholder.com/1000x300/000a12/00ff00?text=JEC-RESOLVE+|+Smart+Grievance+Ecosystem)
+🟢 **Live Demo:** https://omcodes-forcodekumb-hh.vercel.app/
 
-> **JEC-RESOLVE** is an enterprise-grade 'Smart Grievance Ecosystem' designed to bring 100% transparency, accountability, and speed to institutional problem-solving. Built during a 24-hour hackathon, this platform replaces outdated, opaque complaint systems with a dynamic digital governance network.
+> **JEC-RESOLVE** is an enterprise-grade 'Smart Grievance Ecosystem' designed to bring 100% transparency, accountability, and speed to institutional problem-solving. Built from scratch during a 24-hour hackathon, this platform replaces outdated, opaque complaint systems with a dynamic digital governance network.
 
 ## 🏆 The Achievement
-Built by team **The Code Matrix** at the CODE KUMBH 2.0 Hackathon (JEC Jabalpur). 
-Secured the **Best in Open Innovation** award out of numerous competing teams.
+Built by team **The Code Matrix** at the CODE KUMBH 2.0 Hackathon (Jabalpur Engineering College). 
+Secured the **1st Position (Best in Open Innovation)** award out of numerous competing teams.
 
 ---
 
@@ -24,7 +24,7 @@ Our architecture ensures no complaint gets lost or delayed. We engineered four c
 
 ## 💻 Tech Stack & UI/UX
 
-* **Frontend:** React.js, Tailwind CSS
+* **Frontend:** React.js, Vite, Tailwind CSS
 * **Backend/Database:** Supabase (PostgreSQL, Row Level Security)
 * **Aesthetic:** High-Tech 'Cyber-Terminal' UI (Azure Black core, dark glassmorphism, neon-green/yellow accents for data visualization).
 
