@@ -25,106 +25,116 @@ export default function ComplaintCard({ complaint, showActions = true, isPublicF
   const isOverdue = c.expectedDate && new Date(c.expectedDate) < new Date() && !isResolved;
   const branchShort = BRANCH_SHORT[c.branch] || c.branch;
   const isAutoUrgent = c.subCategory && URGENT_SUB_CATEGORIES.includes(c.subCategory);
-  const catColor = CATEGORY_COLORS[c.category] || { bg: 'bg-muted', text: 'text-muted-foreground' };
+  
+  // Custom neon category colors mapping for Quantum Theme
+  const getCatColor = (category: string) => {
+    switch(category) {
+      case 'Academic': return 'bg-[rgba(57,255,20,0.1)] text-[#39ff14] border-[#39ff14]/40';
+      case 'Infrastructure': return 'bg-[rgba(204,255,0,0.1)] text-[#ccff00] border-[#ccff00]/40';
+      case 'Hostel': return 'bg-[rgba(0,191,255,0.1)] text-[#00bfff] border-[#00bfff]/40';
+      case 'Accounts': return 'bg-[rgba(255,255,255,0.1)] text-white border-white/40';
+      case 'Student Welfare': return 'bg-[rgba(255,0,255,0.1)] text-[#ff00ff] border-[#ff00ff]/40';
+      case 'IT Support': return 'bg-[rgba(0,255,255,0.1)] text-[#00ffff] border-[#00ffff]/40';
+      default: return 'bg-[rgba(255,255,255,0.1)] text-white/80 border-white/20';
+    }
+  };
+  const catColor = getCatColor(c.category);
 
   const levelLabel = (() => {
     if (isResolved) return 'RESOLVED SUCCESSFULLY';
     switch (c.authorityLevel) {
-      case 1: return 'LEVEL 1 • ASSIGNED EMPLOYEE';
-      case 2: return 'LEVEL 2 • HEAD OF DEPT';
-      case 3: return 'LEVEL 3 • BRANCH HOD';
-      case 4: return 'LEVEL 4 • PRINCIPAL';
+      case 1: return 'L1 • ASSIGNED EMPLOYEE';
+      case 2: return 'L2 • HEAD OF DEPT';
+      case 3: return 'L3 • BRANCH HOD';
+      case 4: return 'L4 • PRINCIPAL';
       default: return '';
     }
   })();
 
-  const badgeClass = isResolved ? 'jec-badge-success' : c.authorityLevel >= 3 ? 'jec-badge-danger' : c.authorityLevel === 2 ? 'jec-badge-warning' : 'jec-badge-info';
+  const badgeClass = isResolved ? 'jec-badge-success' : c.authorityLevel >= 3 ? 'jec-badge-danger shadow-[0_0_10px_rgba(255,7,58,0.5)] border-[#ff073a] bg-[#ff073a]/10' : c.authorityLevel === 2 ? 'jec-badge-warning' : 'jec-badge-info';
 
   return (
-    <div className={`jec-card border-l-4 border-l-[#ffc61a] p-5 animate-fade-in ${isOverdue ? 'glow-red' : ''}`}>
+    <div className={`jec-card p-5 animate-fade-in ${isOverdue || c.authorityLevel >= 3 ? 'border-[#ff073a] shadow-[0_0_15px_rgba(255,7,58,0.2)]' : 'border-[#39ff14]/30'}`}>
       <div className="flex items-start justify-between gap-3 mb-3">
         <div className="flex-1">
-          <h3 className="font-bold text-[#b91c1c] leading-snug">{!isPublicFeed ? c.title : `${c.category} Issue Reported`}</h3>
-          <div className="flex flex-wrap items-center gap-2 mt-1.5">
-            {/* Category color tag */}
-            <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${catColor.bg} ${catColor.text}`}>
+          <h3 className={`font-bold font-mono tracking-widest uppercase leading-snug ${isOverdue || c.authorityLevel >= 3 ? 'text-[#ff073a] animate-pulse' : 'text-[#ccff00]'}`}>{!isPublicFeed ? c.title : `${c.category} Issue Reported`}</h3>
+          <div className="flex flex-wrap items-center gap-2 mt-2">
+            <span className={`inline-flex items-center rounded-sm px-2.5 py-0.5 text-[10px] font-mono tracking-wider border ${catColor}`}>
               {c.category}
             </span>
             {!isPublicFeed && c.degree && (
-              <span className="inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-medium bg-slate-100 text-slate-600">
+              <span className="inline-flex items-center rounded-sm px-2 py-0.5 text-[10px] font-mono tracking-wider bg-white/5 border border-white/10 text-white/70">
                 {c.degree}
               </span>
             )}
-            {/* Flashing URGENT badge */}
             {isAutoUrgent && !isResolved && !isPublicFeed && (
-              <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-bold bg-red-600 text-white animate-pulse">
+              <span className="inline-flex items-center gap-1 rounded-sm px-2.5 py-0.5 text-[10px] font-mono tracking-widest bg-[rgba(255,7,58,0.2)] border border-[#ff073a] text-[#ff073a] animate-led-pulse">
                 <AlertTriangle className="w-3 h-3" /> URGENT
               </span>
             )}
           </div>
         </div>
-        <span className={`${badgeClass}`}>{levelLabel}</span>
+        <span className={`${badgeClass} shadow-md`}>{levelLabel}</span>
       </div>
 
       {!isPublicFeed ? (
-        <div className="grid grid-cols-2 gap-x-6 gap-y-1 text-sm mb-3 text-slate-700">
-          <p><span className="font-semibold text-slate-900">Token ID:</span> {c.tokenId}</p>
-          <p><span className="font-semibold text-slate-900">Student:</span> {c.studentName}</p>
-          <p><span className="font-semibold text-slate-900">Branch:</span> {branchShort}</p>
-          <p><span className="font-semibold text-slate-900">Target Dept:</span> {c.targetDepartment}</p>
-          <p><span className="font-semibold text-slate-900">Category:</span> {c.category}{c.subCategory ? ` → ${c.subCategory}` : ''}</p>
-          <p><span className="font-semibold text-slate-900">Urgency:</span> <span className={c.urgency === 'High' ? 'text-red-600 font-bold' : ''}>{c.urgency}</span></p>
+        <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-[11px] font-mono mb-4 text-[#39ff14]/70">
+          <p><span className="font-bold text-[#ccff00]">TOKEN_ID:</span> {c.tokenId}</p>
+          <p><span className="font-bold text-[#ccff00]">STUDENT:</span> {c.studentName.toUpperCase()}</p>
+          <p><span className="font-bold text-[#ccff00]">BRANCH:</span> {branchShort.toUpperCase()}</p>
+          <p><span className="font-bold text-[#ccff00]">TARGET_DEPT:</span> {c.targetDepartment.toUpperCase()}</p>
+          <p><span className="font-bold text-[#ccff00]">CATEGORY:</span> {c.category.toUpperCase()}{c.subCategory ? ` → ${c.subCategory.toUpperCase()}` : ''}</p>
+          <p><span className="font-bold text-[#ccff00]">URGENCY:</span> <span className={c.urgency === 'High' ? 'text-[#ff073a] font-bold animate-pulse' : 'text-[#39ff14]'}>{c.urgency.toUpperCase()}</span></p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-x-6 gap-y-1 text-sm mb-3 text-slate-500">
-          <p><span className="font-semibold text-slate-700">Target Dept:</span> {c.targetDepartment}</p>
-          <p><span className="font-semibold text-slate-700">Status:</span> {isResolved ? 'Resolved' : 'Pending'}</p>
-          <p><span className="font-semibold text-slate-700">Date:</span> {new Date(c.createdAt).toLocaleDateString()}</p>
+        <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-[11px] font-mono mb-4 text-[#39ff14]/70">
+          <p><span className="font-bold text-[#ccff00]">TARGET_DEPT:</span> {c.targetDepartment.toUpperCase()}</p>
+          <p><span className="font-bold text-[#ccff00]">STATUS:</span> {isResolved ? 'RESOLVED' : 'PENDING'}</p>
+          <p><span className="font-bold text-[#ccff00]">LOG_DATE:</span> {new Date(c.createdAt).toLocaleDateString()}</p>
         </div>
       )}
 
       {!isPublicFeed && (
-        <div className="bg-slate-50 border border-slate-100 rounded-md px-3 py-2 text-sm mb-3 text-slate-600">
-          <span className="font-semibold text-slate-800">Authorities Informed:</span> {getAuthoritiesInformed(c.authorityLevel, c.targetDepartment, c.branch)}
+        <div className="bg-black/40 border border-[#39ff14]/20 rounded-none px-3 py-2 text-[10px] font-mono mb-4 text-[#39ff14]/80 uppercase tracking-wide">
+          <span className="font-bold text-[#ccff00]">AUTHORITIES_INFORMED:</span> {getAuthoritiesInformed(c.authorityLevel, c.targetDepartment, c.branch)}
         </div>
       )}
 
       {/* Escalation Progress */}
-      <div className="mb-3">
-        <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Escalation Progress</p>
-        <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+      <div className="mb-4">
+        <p className="text-[10px] font-mono font-semibold uppercase tracking-widest text-[#39ff14]/60 mb-1">DATA_STREAM_PROGRESS</p>
+        <div className="w-full bg-white/5 rounded-none h-1.5 overflow-hidden border border-[#39ff14]/20">
           <div
-            className={`h-full rounded-full transition-all duration-500 ${isOverdue ? 'bg-red-600' : isResolved ? 'bg-green-500' : 'bg-[#ffc61a]'}`}
+            className={`h-full transition-all duration-1000 ${isOverdue ? 'bg-[#ff073a] shadow-[0_0_10px_#ff073a]' : isResolved ? 'bg-[#39ff14] shadow-[0_0_10px_#39ff14]' : 'bg-[#ccff00] shadow-[0_0_10px_#ccff00]'}`}
             style={{ width: `${isResolved ? 100 : progress}%` }}
           />
         </div>
-        <p className="text-xs text-slate-500 mt-1">{isResolved ? 'Resolved' : `${progress}% to Principal`}</p>
       </div>
 
       {c.expectedDate && !isPublicFeed && (
-        <p className={`text-xs mb-2 ${isOverdue ? 'text-red-600 font-semibold' : 'text-slate-500'}`}>
+        <p className={`text-[10px] font-mono tracking-widest mb-3 uppercase ${isOverdue ? 'text-[#ff073a] font-bold animate-pulse' : 'text-[#ccff00]/80'}`}>
           <Calendar className="w-3 h-3 inline mr-1" />
-          Expected by: {new Date(c.expectedDate).toLocaleDateString()}
-          {isOverdue && ' ⚠️ OVERDUE'}
+          SLA_EXPECTED: {new Date(c.expectedDate).toLocaleDateString()}
+          {isOverdue && ' // OVERDUE_DETECTED'}
         </p>
       )}
 
       {/* Admin comments */}
       {c.adminComments.length > 0 && !isPublicFeed && (
-        <button onClick={() => setShowComments(!showComments)} className="text-xs text-[#b91c1c] font-medium flex items-center gap-1 mb-2 hover:underline">
-          <MessageSquare className="w-3 h-3" /> {c.adminComments.length} comment(s)
+        <button onClick={() => setShowComments(!showComments)} className="text-[10px] font-mono text-[#ccff00] uppercase tracking-widest flex items-center gap-1 mb-2 hover:text-[#39ff14] transition-colors">
+          <MessageSquare className="w-3 h-3" /> {c.adminComments.length} LOG_ENTRIES
         </button>
       )}
       {showComments && !isPublicFeed && c.adminComments.map(cm => (
-        <div key={cm.id} className="bg-slate-50 border border-slate-100 rounded px-3 py-2 text-xs mb-1">
-          <span className="font-semibold text-slate-800">{cm.authorName}:</span> {cm.text}
-          <span className="text-slate-400 ml-2">{new Date(cm.timestamp).toLocaleString()}</span>
+        <div key={cm.id} className="bg-black/50 border-l border-[#ccff00]/50 px-3 py-2 text-[10px] font-mono mb-1 text-[#39ff14]/80">
+          <span className="font-bold text-[#ccff00] uppercase">{cm.authorName}:</span> {cm.text}
+          <span className="text-[#39ff14]/40 ml-2 tracking-widest">[{new Date(cm.timestamp).toLocaleTimeString()}]</span>
         </div>
       ))}
 
       {/* Actions */}
       {showActions && !isResolved && !isPublicFeed && (
-        <div className="flex flex-wrap gap-2 mt-3">
+        <div className="flex flex-wrap gap-2 mt-4">
           {isOwner && c.authorityLevel < 4 && (
             (() => {
               const isLocked = c.expectedDate && new Date() < new Date(c.expectedDate);
@@ -133,75 +143,75 @@ export default function ComplaintCard({ complaint, showActions = true, isPublicF
                 return (
                   <button 
                     disabled 
-                    className="bg-gray-400 text-white cursor-not-allowed opacity-80 flex items-center gap-2 px-4 py-2 rounded-md"
+                    className="border border-[#ff073a]/30 text-[#ff073a]/50 bg-black/50 cursor-not-allowed font-mono text-[10px] tracking-widest uppercase flex items-center gap-2 px-4 py-2"
                   >
-                    <Lock className="w-4 h-4" /> Locked till {new Date(c.expectedDate).toLocaleDateString()}
+                    <Lock className="w-3 h-3" /> TIME_LOCKED ({new Date(c.expectedDate).toLocaleDateString()})
                   </button>
                 );
               } else {
                 return (
                   <button 
                     onClick={() => escalate(c.id)} 
-                    className="bg-red-600 hover:bg-red-700 text-white animate-pulse shadow-[0_0_10px_rgba(220,38,38,0.8)] cursor-pointer flex items-center gap-2 px-4 py-2 rounded-md transition-all"
+                    className="btn-quantum border-[#ff073a] text-[#ff073a] hover:bg-[rgba(255,7,58,0.15)] hover:border-[#ff073a] hover:text-[#ff073a] shadow-[0_0_10px_rgba(255,7,58,0.2)] animate-led-pulse text-[10px] px-4 py-2"
                   >
-                    <ArrowUpCircle className="w-4 h-4" /> Escalate Issue
+                    <ArrowUpCircle className="w-4 h-4 mr-2" /> FORCE_ESCALATION
                   </button>
                 );
               }
             })()
           )}
           {isOwner && (
-            <button onClick={() => markSolved(c.id)} className="bg-[#ffc61a] hover:bg-[#e6b10a] text-black px-4 py-2 rounded-md text-sm font-medium shadow-md transition-all flex items-center gap-1">
-              <CheckCircle className="w-4 h-4" /> Mark as Solved at Level {c.authorityLevel}
+            <button onClick={() => markSolved(c.id)} className="btn-quantum text-[10px] px-4 py-2">
+              <CheckCircle className="w-4 h-4 mr-2" /> ACKNOWLEDGE_FIX (L{c.authorityLevel})
             </button>
           )}
 
           {isAuthority && (
-            <>
-              <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2 w-full mt-2">
+              <div className="flex items-center gap-2 w-full md:w-auto">
                 <input type="date" value={dateValue} onChange={e => setDateValue(e.target.value)}
-                  className="border border-slate-200 rounded px-2 py-1.5 text-sm bg-white" />
+                  className="border border-[#39ff14]/40 bg-[#0a0a0a] px-2 py-1.5 text-[10px] font-mono text-gray-200 outline-none focus:border-[#ccff00]" />
                 <button onClick={() => {
                   if (dateValue) {
                     setExpectedDate(c.id, dateValue);
                   }
                 }}
-                  className="bg-[#ffc61a] hover:bg-[#e6b10a] text-black px-3 py-1.5 rounded text-sm font-medium shadow-sm transition-all">
-                  Set SLA Date
+                  className="btn-quantum text-[10px] px-3 py-1.5">
+                  SET_SLA
                 </button>
               </div>
               <div className="flex items-center gap-2 w-full">
                 <input value={commentText} onChange={e => setCommentText(e.target.value)}
-                  placeholder="Add a comment..."
-                  className="border border-slate-200 rounded px-2 py-1.5 text-sm flex-1 bg-white" />
+                  placeholder="ENTER_LOG_DATA..."
+                  className="border border-[#39ff14]/40 bg-[#0a0a0a] px-2 py-1.5 text-[10px] font-mono text-gray-200 outline-none flex-1 focus:border-[#ccff00] placeholder:text-gray-500" />
                 <button onClick={() => {
                   if (commentText.trim() && user) {
                     addComment(c.id, { authorId: user.id, authorName: user.name, text: commentText });
                     setCommentText('');
                   }
-                }} className="bg-[#ffc61a] hover:bg-[#e6b10a] text-black px-3 py-1.5 rounded text-sm font-medium shadow-sm transition-all">
-                  Post
+                }} className="btn-quantum text-[10px] px-3 py-1.5">
+                  APPEND
                 </button>
               </div>
               <button onClick={() => markSolved(c.id)}
-                className="bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700 shadow-sm transition-all flex items-center gap-1">
-                <CheckCircle className="w-4 h-4" /> Mark Resolved
+                className="btn-quantum border-[#39ff14] text-[#39ff14] hover:bg-[#39ff14]/10 text-[10px] px-4 py-2 w-full md:w-auto">
+                <CheckCircle className="w-4 h-4 mr-2" /> MARK_RESOLVED
               </button>
-            </>
+            </div>
           )}
 
           {!isOwner && !isAuthority && !isPublicFeed && (
-            <span className="flex items-center gap-1 text-xs text-slate-400">
-              <Lock className="w-3 h-3" /> View Only
+            <span className="flex items-center gap-1 text-[10px] font-mono text-white/30 uppercase tracking-widest mt-2">
+              <Lock className="w-3 h-3" /> READ_ONLY_ACCESS
             </span>
           )}
         </div>
       )}
 
       {isResolved && (
-        <div className="mt-3">
-          <span className="bg-green-100 text-green-800 border border-green-200 px-4 py-2 rounded-md text-sm font-medium inline-flex items-center gap-1">
-            <CheckCircle className="w-4 h-4" /> Marked as Solved
+        <div className="mt-4">
+          <span className="bg-[rgba(57,255,20,0.1)] text-[#39ff14] border border-[#39ff14]/40 px-3 py-1.5 rounded-none text-[10px] font-mono tracking-widest uppercase inline-flex items-center gap-2 shadow-[0_0_10px_rgba(57,255,20,0.2)] inset">
+            <CheckCircle className="w-3 h-3" /> RESOLUTION_CONFIRMED
           </span>
         </div>
       )}

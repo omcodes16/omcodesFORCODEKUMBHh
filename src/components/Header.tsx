@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import jecLogo from '@/assets/jec-logo.png';
 import amritMahotsavLogo from '@/assets/amrit-mahotsav.png';
-import { LogOut, Phone, Mail, Menu, X } from 'lucide-react';
+import { LogOut, Phone, Mail, Menu, X, Terminal } from 'lucide-react';
 import { useState } from 'react';
 
 export default function Header() {
@@ -11,75 +11,85 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const navLinks = [
-    { to: '/', label: 'Home' },
-    { to: '/public-feed', label: 'Public Feed' },
-    { to: '/about', label: 'About Us' },
+    { to: '/', label: 'SYS_HOME' },
+    { to: '/public-feed', label: 'PUBLIC_STREAM' },
+    { to: '/about', label: 'ABOUT_NODE' },
   ];
 
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <header className="sticky top-0 z-50 shadow-md">
-      {/* 1. Official JEC White Header */}
-      <div className="bg-white flex flex-col md:flex-row justify-between items-center px-4 py-4 lg:px-12 gap-6 w-full">
+    <header className="sticky top-0 z-50 shadow-[0_4px_30px_rgba(57,255,20,0.1)] border-b border-[#39ff14]/20 bg-black/80 backdrop-blur-lg">
+      {/* 1. Holographic Header Display */}
+      <div className="flex flex-col md:flex-row justify-between items-center px-4 py-4 lg:px-12 gap-6 w-full relative overflow-hidden">
+        {/* Decorative Grid Top */}
+        <div className="absolute inset-0 pointer-events-none opacity-20" style={{ backgroundImage: 'linear-gradient(to right, #39ff14 1px, transparent 1px), linear-gradient(to bottom, #39ff14 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
+        
         {/* Left Section (College Logo) */}
-        <div className="flex-shrink-0">
-          <img src={jecLogo} alt="JEC Logo" className="w-24 h-24 md:w-28 md:h-28 object-contain" />
+        <div className="flex-shrink-0 relative z-10 filter drop-shadow-[0_0_10px_rgba(57,255,20,0.4)]">
+          <img src={jecLogo} alt="JEC Logo" className="w-20 h-20 md:w-24 md:h-24 object-contain brightness-125" />
         </div>
         
-        {/* Center Section (Official Text) */}
-        <div className="flex flex-col text-center justify-center flex-1">
-          <h2 className="text-xl font-bold text-slate-800">जबलपुर अभियांत्रिकी महाविद्यालय, जबलपुर (म.प्र.)</h2>
-          <h1 className="text-2xl md:text-3xl font-extrabold text-[#b91c1c] tracking-wide mt-1">JABALPUR ENGINEERING COLLEGE, JABALPUR (M.P.)</h1>
-          <p className="text-sm font-medium text-gray-700 mt-1">(Established in 1947 as a Government Engineering College, जबलपुर)</p>
-          <p className="text-sm font-medium text-gray-700">(Declared Autonomous by Govt. of Madhya Pradesh)</p>
+        {/* Center Section (Data Terminal Text) */}
+        <div className="flex flex-col text-center justify-center flex-1 relative z-10">
+          <h2 className="text-[10px] md:text-xs font-mono font-bold text-[#ccff00] tracking-widest uppercase mb-1 flex items-center justify-center gap-2">
+            <Terminal className="w-3 h-3" /> जबलपुर अभियांत्रिकी महाविद्यालय, जबलपुर (म.प्र.)
+          </h2>
+          <h1 className="text-sm md:text-xl font-mono font-extrabold text-[#39ff14] tracking-[0.2em] uppercase text-shadow-md">
+            Jabalpur Engineering College
+          </h1>
+          <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4 mt-2 text-[8px] md:text-[9px] font-mono text-[#39ff14]/70 tracking-widest uppercase">
+            <span>[EST_1947 :: GOVT_ENGG_COLLEGE]</span>
+            <span className="hidden md:inline text-[#ccff00]">|</span>
+            <span>[AUTONOMOUS_NODE :: GOVT_OF_MP]</span>
+          </div>
         </div>
 
         {/* Right Section (Amrit Mahotsav Logo) */}
-        <div className="flex-shrink-0">
+        <div className="flex-shrink-0 relative z-10 filter drop-shadow-[0_0_10px_rgba(204,255,0,0.4)]">
           <img 
             src={amritMahotsavLogo} 
             alt="Amrit Mahotsav Logo" 
-            className="w-20 h-20 md:w-24 md:h-24 object-contain" 
+            className="w-16 h-16 md:w-20 md:h-20 object-contain brightness-125" 
             onError={(e) => (e.currentTarget.style.display = 'none')}
           />
         </div>
       </div>
 
-      {/* 2. Existing Deep Purple/Maroon Navbar */}
-      <div className="jec-header-gradient px-4 py-3 flex items-center justify-between text-primary-foreground min-h-[56px]">
+      {/* 2. Cyber-Nav Section */}
+      <div className="border-t border-[#39ff14]/20 px-4 py-3 flex items-center justify-between min-h-[50px] relative z-10 bg-black/50">
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-6 flex-1">
-          <nav className="flex gap-6">
+          <nav className="flex gap-8">
             {navLinks.map(l => (
               <Link key={l.to} to={l.to}
-                className={`text-sm font-semibold transition-colors ${isActive(l.to) ? 'text-secondary border-b-2 border-secondary pb-1' : 'text-white hover:text-secondary'}`}
+                className={`text-[10px] font-mono tracking-[0.15em] uppercase transition-all duration-300 ${isActive(l.to) ? 'text-[#ccff00] border-b border-[#ccff00] pb-1 shadow-[0_0_10px_rgba(204,255,0,0.5)]' : 'text-[#39ff14]/70 hover:text-[#39ff14]'}`}
               >{l.label}</Link>
             ))}
           </nav>
         </div>
 
         {/* Mobile menu toggle */}
-        <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden p-1 flex items-center gap-2">
-          {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          <span className="font-bold text-sm">Menu</span>
+        <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden p-1 flex items-center gap-2 text-[#39ff14]">
+          {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          <span className="font-mono text-[10px] tracking-widest uppercase">SYS_MENU</span>
         </button>
 
         {/* User Actions & Support */}
-        <div className="flex items-center gap-4">
-          <div className="hidden lg:flex items-center gap-4 text-xs opacity-90">
-            <span className="flex items-center gap-1"><Phone className="w-3 h-3" /> +91 7612331953</span>
-            <span className="flex items-center gap-1"><Mail className="w-3 h-3" /> prinjec.jbp@mp.gov.in</span>
+        <div className="flex items-center gap-6">
+          <div className="hidden lg:flex items-center gap-4 text-[9px] font-mono tracking-widest text-[#39ff14]/60 uppercase">
+            <span className="flex items-center gap-1.5 hover:text-[#39ff14] transition-colors"><Phone className="w-3 h-3" /> +91_7612331953</span>
+            <span className="flex items-center gap-1.5 hover:text-[#ccff00] transition-colors"><Mail className="w-3 h-3" /> prinjec.jbp@mp.gov.in</span>
           </div>
 
           {isAuthenticated && user && (
-            <div className="flex items-center gap-3">
-              <div className="text-right hidden sm:block">
-                <p className="text-xs font-semibold">{user.name}</p>
-                <p className="text-[10px] text-white/80 capitalize">{user.role}</p>
+            <div className="flex items-center gap-4 border-l border-[#39ff14]/30 pl-4">
+              <div className="text-right hidden sm:block font-mono">
+                <p className="text-[10px] font-bold text-[#ccff00] uppercase tracking-wider">{user.name}</p>
+                <p className="text-[8px] text-[#39ff14]/60 uppercase tracking-widest">[{user.role}]</p>
               </div>
-              <button onClick={logout} className="flex items-center gap-1 text-xs bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded transition-colors">
-                <LogOut className="w-3 h-3" /> Logout
+              <button onClick={logout} className="btn-quantum text-[9px] px-3 py-1.5 flex items-center gap-1.5">
+                <LogOut className="w-3 h-3" /> DISCONNECT
               </button>
             </div>
           )}
@@ -88,27 +98,28 @@ export default function Header() {
 
       {/* Mobile nav dropdown */}
       {mobileOpen && (
-        <div className="md:hidden bg-[#b91c1c] border-t border-white/20 px-4 pt-2 pb-4 space-y-2 shadow-inner">
+        <div className="md:hidden bg-black/95 border-b border-[#39ff14]/30 px-4 pt-2 pb-4 space-y-2 relative z-20">
           {navLinks.map(l => (
             <Link key={l.to} to={l.to} onClick={() => setMobileOpen(false)}
-              className={`block px-3 py-2 rounded text-sm font-medium ${isActive(l.to) ? 'bg-white/20 text-white' : 'text-white/80 hover:text-white'}`}
+              className={`block px-3 py-3 rounded-none text-[10px] font-mono tracking-widest uppercase border border-transparent ${isActive(l.to) ? 'bg-[#39ff14]/10 border-[#39ff14]/30 text-[#ccff00]' : 'text-[#39ff14]/60 hover:text-[#39ff14] hover:bg-[#39ff14]/5 hover:border-[#39ff14]/20'}`}
             >{l.label}</Link>
           ))}
           {isAuthenticated && user && (
-            <div className="px-3 py-2 text-xs text-white/70 border-t border-white/20 mt-2">
-              Logged in: {user.name} ({user.role})
+            <div className="px-3 py-3 text-[10px] font-mono text-[#39ff14]/50 border-t border-[#39ff14]/20 mt-2 tracking-widest uppercase">
+              ACTIVE_SESSION: <span className="text-[#ccff00]">{user.name}</span> [{user.role}]
             </div>
           )}
         </div>
       )}
 
-      <div className="bg-primary/95 text-primary-foreground py-1.5 overflow-hidden text-xs border-t border-white/10">
+      {/* Info Ticker */}
+      <div className="bg-black/80 border-t border-[#ccff00]/20 py-1 overflow-hidden relative z-10">
         <div className="animate-marquee whitespace-nowrap flex gap-12 items-center">
-          <span className="text-yellow-300 font-semibold tracking-wide">
-            ⚠️ DISCLAIMER: This is a student prototype built for the hackathon and is NOT the official website of Jabalpur Engineering College. Some visual assets and content are sourced from the official JEC website for educational demonstration purposes only.
+          <span className="text-[#ff073a] text-[9px] font-mono tracking-[0.2em] font-bold uppercase">
+            WARN // PROTOTYPE_SIMULATION_ONLY // NOT_OFFICIAL_JEC_SYSTEM // VISUAL_DATA_DEMONSTRATION
           </span>
-          <span className="text-yellow-300 font-semibold tracking-wide">
-            ⚠️ DISCLAIMER: This is a student prototype built for the hackathon and is NOT the official website of Jabalpur Engineering College. Some visual assets and content are sourced from the official JEC website for educational demonstration purposes only.
+          <span className="text-[#ff073a] text-[9px] font-mono tracking-[0.2em] font-bold uppercase">
+            WARN // PROTOTYPE_SIMULATION_ONLY // NOT_OFFICIAL_JEC_SYSTEM // VISUAL_DATA_DEMONSTRATION
           </span>
         </div>
       </div>

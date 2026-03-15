@@ -21,13 +21,18 @@ const App = () => (
       <AuthProvider>
         <ComplaintProvider>
           <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/public-feed" element={<PublicFeed />} />
-              <Route path="/about" element={<About />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <div className="quantum-bg">
+              <div className="glow-corner-tl"></div>
+              <div className="glow-corner-br-red"></div>
+              <div className="quantum-stream-overlay"></div>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/public-feed" element={<PublicFeed />} />
+                <Route path="/about" element={<About />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </div>
           </BrowserRouter>
         </ComplaintProvider>
       </AuthProvider>

@@ -1,74 +1,48 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 210 40% 98%; /* bg-slate-50 equivalent */
-    --foreground: 222 47% 11%;
+    --quantum-azure: 207 100% 4%;
+    --quantum-green: 110 100% 54%;
+    --quantum-yellow: 72 100% 50%;
+    --quantum-red: 348 100% 51%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --background: var(--quantum-azure);
+    --foreground: 110 100% 80%; /* lighter neon green for text */
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --card: 207 100% 6%;
+    --card-foreground: 110 100% 80%;
 
-    --primary: 0 72% 41%; /* #b91c1c - JEC Maroon */
-    --primary-foreground: 0 0% 100%;
+    --popover: 207 100% 6%;
+    --popover-foreground: 110 100% 80%;
 
-    --secondary: 47 66% 52%; /* Keep JEC Gold #d4af37 */
-    --secondary-foreground: 0 0% 0%;
+    --primary: var(--quantum-green);
+    --primary-foreground: 207 100% 4%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --secondary: var(--quantum-yellow);
+    --secondary-foreground: 207 100% 4%;
 
-    --accent: 47 66% 52%;
-    --accent-foreground: 222 47% 11%;
+    --muted: 207 50% 10%;
+    --muted-foreground: 110 50% 50%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --accent: var(--quantum-yellow);
+    --accent-foreground: 207 100% 4%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 45 100% 55%;
+    --destructive: var(--quantum-red);
+    --destructive-foreground: 0 0% 100%;
 
-    --radius: 0.75rem;
+    --border: 110 50% 20%;
+    --input: 110 50% 20%;
+    --ring: var(--quantum-green);
 
-    /* Custom JEC tokens - Updated to Maroon & Gold */
-    --jec-maroon: 0 72% 41%;
-    --jec-gold: 45 100% 55%;
-    --jec-slate: 222 47% 11%;
-    --jec-success: 142 76% 36%;
-    --jec-warning: 45 100% 55%;
-    --jec-danger: 0 84% 60%;
-
-    --gradient-header: linear-gradient(135deg, #b91c1c, #ffc61a);
-    --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-    --shadow-card-hover: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --radius: 0.5rem;
   }
 
   .dark {
-    --background: 220 40% 8%;
-    --foreground: 45 80% 95%;
-    --card: 220 35% 12%;
-    --card-foreground: 45 80% 95%;
-    --popover: 220 35% 12%;
-    --popover-foreground: 45 80% 95%;
-    --primary: 45 70% 52%;
-    --primary-foreground: 220 40% 12%;
-    --secondary: 220 30% 22%;
-    --secondary-foreground: 45 80% 95%;
-    --muted: 220 30% 18%;
-    --muted-foreground: 220 10% 60%;
-    --accent: 45 70% 52%;
-    --accent-foreground: 220 40% 12%;
-    --destructive: 0 62% 30%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 220 30% 20%;
-    --input: 220 30% 20%;
-    --ring: 45 70% 52%;
+    --background: var(--quantum-azure);
+    --foreground: 110 100% 80%;
   }
 }
 
@@ -78,46 +52,126 @@
   }
   body {
     @apply bg-background text-foreground font-sans;
-    font-family: 'Inter', sans-serif;
+    background-color: hsl(var(--quantum-azure));
   }
 }
 
 @layer components {
+  /* Dynamic Background Layer */
+  .quantum-bg {
+    @apply relative min-h-screen w-full bg-background;
+    background-image: 
+      linear-gradient(to right, rgba(57, 255, 20, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(57, 255, 20, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  
+  .quantum-bg::before {
+    content: '';
+    @apply absolute inset-0 pointer-events-none;
+    background: radial-gradient(circle at top left, rgba(57, 255, 20, 0.15), transparent 40%),
+                radial-gradient(circle at bottom right, rgba(204, 255, 0, 0.1), transparent 50%);
+  }
+  
+  /* Corner Glow Logic */
+  .glow-corner-tl {
+    @apply absolute top-0 left-0 w-64 h-64 rounded-full pointer-events-none opacity-30 mix-blend-screen blur-[80px];
+    background: radial-gradient(circle, rgba(57,255,20,1) 0%, rgba(0,0,0,0) 70%);
+  }
+  
+  .glow-corner-br-red {
+    @apply absolute bottom-0 right-0 w-96 h-96 rounded-full pointer-events-none opacity-30 mix-blend-screen blur-[100px];
+    background: radial-gradient(circle, rgba(255,7,58,1) 0%, rgba(0,0,0,0) 70%);
+  }
+
+  /* Quantum Stream Effect lines overlay */
+  .quantum-stream-overlay {
+    @apply absolute inset-0 pointer-events-none overflow-hidden;
+  }
+  .quantum-stream-overlay::after {
+    content: '';
+    @apply absolute inset-0 pointer-events-none w-[200%] h-[200%];
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(57, 255, 20, 0.05) 3px,
+      rgba(57, 255, 20, 0.05) 4px
+    );
+    animation: hologram-scan 8s linear infinite;
+    mix-blend-screen: screen;
+    opacity: 0.3;
+  }
+
+  /* Components */
   .jec-card {
-    @apply bg-white rounded-xl border shadow-sm transition-all duration-300;
+    @apply bg-black/80 rounded-sm border-2 shadow-sm transition-all duration-300 backdrop-blur-md relative overflow-hidden;
+    border-color: rgba(57, 255, 20, 0.3);
   }
   .jec-card:hover {
-    @apply shadow-md;
+    @apply shadow-[0_0_15px_rgba(57,255,20,0.2)];
+    border-color: rgba(204, 255, 0, 0.5);
   }
+
   .jec-accent-border {
     @apply border-l-4;
-    border-left-color: #ffc61a; /* JEC Gold */
+    border-left-color: hsl(var(--quantum-yellow)); 
   }
+
   .jec-header-gradient {
-    background: var(--gradient-header);
+    background: linear-gradient(135deg, hsl(var(--quantum-green)), hsl(var(--quantum-yellow)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
+
+  /* Badges matched to old class names but updated style */
   .jec-badge {
-    @apply inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold;
+    @apply inline-flex items-center justify-center rounded-sm px-3 py-1 text-xs font-mono tracking-wider border uppercase transition-colors;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: rgba(255,255,255,0.8);
   }
   .jec-badge-success {
     @apply jec-badge;
-    background-color: hsl(var(--jec-success) / 0.15);
-    color: hsl(var(--jec-success));
+    background-color: rgba(57, 255, 20, 0.1);
+    color: #39ff14;
+    border-color: rgba(57, 255, 20, 0.4);
+    box-shadow: 0 0 10px rgba(57, 255, 20, 0.2) inset;
   }
   .jec-badge-warning {
     @apply jec-badge;
-    background-color: hsl(var(--jec-warning) / 0.15);
-    color: hsl(var(--jec-warning));
+    background-color: rgba(204, 255, 0, 0.1);
+    color: #ccff00;
+    border-color: rgba(204, 255, 0, 0.4);
+    box-shadow: 0 0 10px rgba(204, 255, 0, 0.2) inset;
   }
   .jec-badge-danger {
     @apply jec-badge;
-    background-color: hsl(var(--jec-danger) / 0.15);
-    color: hsl(var(--jec-danger));
+    background-color: rgba(255, 7, 58, 0.1);
+    color: #ff073a;
+    border-color: rgba(255, 7, 58, 0.4);
+    box-shadow: 0 0 10px rgba(255, 7, 58, 0.2) inset;
+    animation: led-pulse 2s infinite;
   }
   .jec-badge-info {
     @apply jec-badge;
-    background-color: hsl(var(--primary) / 0.1);
-    color: hsl(var(--primary));
+    background-color: rgba(57, 255, 20, 0.05);
+    color: #39ff14;
+    border-color: rgba(57, 255, 20, 0.3);
+  }
+
+  .btn-quantum {
+    @apply relative overflow-hidden inline-flex items-center justify-center rounded-sm font-mono tracking-wider uppercase transition-all duration-300 border backdrop-blur-sm;
+    background: rgba(0, 10, 18, 0.8);
+    border-color: rgba(57, 255, 20, 0.5);
+    color: #39ff14;
+    box-shadow: 0 0 10px rgba(57, 255, 20, 0.1) inset;
+  }
+  .btn-quantum:hover {
+    background: linear-gradient(90deg, rgba(57, 255, 20, 0.15), rgba(204, 255, 0, 0.15));
+    border-color: #ccff00;
+    color: #ccff00;
+    box-shadow: 0 0 20px rgba(57, 255, 20, 0.4), inset 0 0 15px rgba(204, 255, 0, 0.2);
   }
 }
 
@@ -129,7 +183,7 @@
     animation: scaleIn 0.3s ease-out forwards;
   }
   .hover-scale {
-    @apply transition-transform duration-200 hover:scale-105;
+    @apply transition-transform duration-200 hover:scale-[1.02];
   }
 }
 
@@ -153,8 +207,8 @@
 }
 
 @keyframes glowRed {
-  0%, 100% { box-shadow: 0 0 8px hsl(0 72% 51% / 0.4); }
-  50% { box-shadow: 0 0 20px hsl(0 72% 51% / 0.7); }
+  0%, 100% { box-shadow: 0 0 8px hsl(348 100% 51% / 0.4); border-color: rgba(255,7,58,0.5); }
+  50% { box-shadow: 0 0 20px hsl(348 100% 51% / 0.8); border-color: rgba(255,7,58,1); }
 }
 
 .glow-red {

@@ -21,14 +21,12 @@ export default function ComplaintForm() {
   const [branchAnimating, setBranchAnimating] = useState(false);
   const [showReviewDrawer, setShowReviewDrawer] = useState(false);
 
-  // Auto-set department based on category
   useEffect(() => {
     if (category) {
       setDepartment(category);
     }
   }, [category]);
 
-  // Auto-urgency for critical sub-categories
   useEffect(() => {
     if (subCategory && URGENT_SUB_CATEGORIES.includes(subCategory)) {
       setUrgency('High');
@@ -40,7 +38,6 @@ export default function ComplaintForm() {
   const availableBranches = degree ? DEGREE_BRANCHES[degree] : [];
   const availableSubCategories = category ? SUB_CATEGORIES[category] : [];
 
-  // Animate branch dropdown on degree change
   const handleDegreeChange = (val: string) => {
     setDegree(val as DegreeProgram | '');
     setBranch('');
@@ -78,13 +75,13 @@ export default function ComplaintForm() {
       tokenId: `JEC-2026-${String(Date.now()).slice(-4)}`
     };
 
-    // Also update context if possible (optional but good for UI reactivity)
     addComplaint(newGrievance);
 
     confetti({
-      particleCount: 150,
+      particleCount: 100,
       spread: 70,
-      origin: { y: 0.6 }
+      origin: { y: 0.6 },
+      colors: ['#39ff14', '#ccff00']
     });
 
     setTitle(''); setDescription(''); setCategory(''); setSubCategory(''); setDepartment(''); setUrgency('Low');
@@ -94,14 +91,14 @@ export default function ComplaintForm() {
   };
 
   return (
-    <div className="jec-card p-6 border-l-4 border-l-[#ffc61a]">
-      <h2 className="text-xl font-bold text-[#b91c1c] mb-1">Raise Complaint</h2>
-      <p className="text-sm text-slate-500 mb-5">Submit a formal request to the concerned department for prompt resolution.</p>
+    <div className="jec-card p-6 border-l-4 border-l-[#ccff00] border-[#39ff14]/30 text-[#39ff14]">
+      <h2 className="text-[14px] font-mono font-bold text-[#39ff14] mb-1 uppercase tracking-widest">INITIALIZE_ISSUE_NODE</h2>
+      <p className="text-[10px] font-mono text-[#ccff00]/70 mb-5 uppercase tracking-widest">SUBMIT_TARGET_DATA_FOR_ESCALATION.</p>
 
       {submitted && (
-        <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-4 animate-scale-in text-center">
-          <p className="text-green-700 font-semibold text-lg">✅ Complaint Submitted Successfully!</p>
-          <p className="text-sm text-slate-500">Your complaint has been logged and assigned to Level 1.</p>
+        <div className="bg-[rgba(57,255,20,0.1)] border border-[#39ff14]/50 rounded-none p-4 mb-4 animate-scale-in text-center shadow-[0_0_15px_rgba(57,255,20,0.2)]">
+          <p className="text-[#39ff14] font-mono font-bold text-sm tracking-widest uppercase mb-1">DATA_PACKET_TRANSMITTED_SUCCESSFULLY.</p>
+          <p className="text-[10px] text-[#ccff00]/80 font-mono tracking-widest uppercase">ASSIGNED_TO_LEVEL_1_PROCESSING.</p>
         </div>
       )}
 
@@ -114,86 +111,86 @@ export default function ComplaintForm() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setShowReviewDrawer(false)}
-              className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm cursor-pointer"
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm cursor-pointer"
             />
             <motion.div
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="relative w-full max-w-md bg-white h-full shadow-2xl flex flex-col border-l border-slate-200"
+              className="relative w-full max-w-md bg-black/90 h-full shadow-2xl flex flex-col border-l border-[#39ff14]/30 backdrop-blur-xl"
             >
-              <div className="flex items-center justify-between p-6 border-b border-slate-100 bg-slate-50">
-                <h2 className="text-xl font-bold text-[#b91c1c]">Review Your Grievance</h2>
+              <div className="flex items-center justify-between p-6 border-b border-[#39ff14]/20 bg-black/50">
+                <h2 className="text-sm font-mono font-bold text-[#ccff00] uppercase tracking-widest">VERIFY_DATA_PACKET</h2>
                 <button
                   onClick={() => setShowReviewDrawer(false)}
-                  className="p-2 rounded-full hover:bg-slate-200 transition-colors"
+                  className="p-2 rounded-none hover:bg-white/10 transition-colors"
                 >
-                  <X className="w-5 h-5 text-slate-400" />
+                  <X className="w-5 h-5 text-[#39ff14]" />
                 </button>
               </div>
 
-              <div className="flex-1 overflow-y-auto p-6 space-y-6">
-                <div className="space-y-4">
-                  <div className="bg-slate-50 p-4 rounded-lg border border-slate-100">
-                    <p className="text-xs text-slate-400 uppercase font-semibold mb-1">Title</p>
-                    <p className="font-medium text-slate-900">{title}</p>
+              <div className="flex-1 overflow-y-auto p-6 space-y-4">
+                <div className="space-y-4 text-[#39ff14] font-mono">
+                  <div className="bg-[rgba(57,255,20,0.05)] p-4 rounded-none border border-[#39ff14]/20">
+                    <p className="text-[9px] text-[#ccff00]/60 uppercase font-bold tracking-widest mb-1">NODE_TITLE</p>
+                    <p className="font-bold text-xs uppercase tracking-wider">{title}</p>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-slate-50 p-4 rounded-lg border border-slate-100">
-                      <p className="text-xs text-slate-400 uppercase font-semibold mb-1">Category</p>
-                      <p className="font-medium text-slate-900">{category}</p>
+                    <div className="bg-[rgba(57,255,20,0.05)] p-4 rounded-none border border-[#39ff14]/20">
+                      <p className="text-[9px] text-[#ccff00]/60 uppercase font-bold tracking-widest mb-1">CATEGORY</p>
+                      <p className="font-bold text-[10px] uppercase tracking-wider">{category}</p>
                     </div>
                     {subCategory && (
-                      <div className="bg-slate-50 p-4 rounded-lg border border-slate-100">
-                        <p className="text-xs text-slate-400 uppercase font-semibold mb-1">Sub-Category</p>
-                        <p className="font-medium text-slate-900">{subCategory}</p>
+                      <div className="bg-[rgba(57,255,20,0.05)] p-4 rounded-none border border-[#39ff14]/20">
+                        <p className="text-[9px] text-[#ccff00]/60 uppercase font-bold tracking-widest mb-1">SUB_CLASS</p>
+                        <p className="font-bold text-[10px] uppercase tracking-wider">{subCategory}</p>
                       </div>
                     )}
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-slate-50 p-4 rounded-lg border border-slate-100">
-                      <p className="text-xs text-slate-400 uppercase font-semibold mb-1">Branch</p>
-                      <p className="font-medium text-slate-900">{branch}</p>
+                    <div className="bg-[rgba(57,255,20,0.05)] p-4 rounded-none border border-[#39ff14]/20">
+                      <p className="text-[9px] text-[#ccff00]/60 uppercase font-bold tracking-widest mb-1">BRANCH</p>
+                      <p className="font-bold text-[10px] uppercase tracking-wider">{branch}</p>
                     </div>
-                    <div className="bg-slate-50 p-4 rounded-lg border border-slate-100">
-                      <p className="text-xs text-slate-400 uppercase font-semibold mb-1">Priority Level</p>
-                      <p className={`font-semibold ${
-                        urgency === 'High' ? 'text-red-600' : 
-                        urgency === 'Medium' ? 'text-amber-500' : 'text-green-600'
+                    <div className="bg-[rgba(57,255,20,0.05)] p-4 rounded-none border border-[#39ff14]/20">
+                      <p className="text-[9px] text-[#ccff00]/60 uppercase font-bold tracking-widest mb-1">PRIORITY</p>
+                      <p className={`font-bold text-[10px] uppercase tracking-wider ${
+                        urgency === 'High' ? 'text-[#ff073a] animate-pulse' : 
+                        urgency === 'Medium' ? 'text-[#ccff00]' : 'text-[#39ff14]'
                       }`}>{urgency}</p>
                     </div>
                   </div>
 
-                  <div className="bg-slate-50 p-4 rounded-lg border border-slate-100">
-                    <p className="text-xs text-slate-400 uppercase font-semibold mb-1">Routed To</p>
-                    <p className="font-medium text-slate-900">{department}</p>
+                  <div className="bg-[rgba(57,255,20,0.05)] p-4 rounded-none border border-[#39ff14]/20">
+                    <p className="text-[9px] text-[#ccff00]/60 uppercase font-bold tracking-widest mb-1">TARGET_SYSTEM</p>
+                    <p className="font-bold text-xs uppercase tracking-wider">{department}</p>
                   </div>
 
-                  <div className="bg-slate-50 p-4 rounded-lg border border-slate-100">
-                    <p className="text-xs text-slate-400 uppercase font-semibold mb-1">Description</p>
-                    <p className="text-sm text-slate-700 whitespace-pre-wrap">{description}</p>
+                  <div className="bg-[rgba(57,255,20,0.05)] p-4 rounded-none border border-[#39ff14]/20">
+                    <p className="text-[9px] text-[#ccff00]/60 uppercase font-bold tracking-widest mb-1">RAW_DATA_PAYLOAD</p>
+                    <p className="text-[10px] text-[#39ff14]/80 whitespace-pre-wrap uppercase tracking-wider leading-relaxed">{description}</p>
                   </div>
                 </div>
               </div>
 
-              <div className="p-6 border-t border-slate-100 bg-white/95 backdrop-blur flex gap-3">
+              <div className="p-6 border-t border-[#39ff14]/20 bg-black/80 flex gap-3">
                 <button
                   type="button"
                   onClick={() => setShowReviewDrawer(false)}
-                  className="flex-1 py-3 rounded-lg font-semibold border-2 border-slate-100 hover:bg-slate-50 transition-colors text-slate-600"
+                  className="flex-1 py-3 font-mono text-[10px] font-bold tracking-widest uppercase border border-[#39ff14]/50 hover:bg-[#39ff14]/10 transition-colors text-[#39ff14]"
                 >
-                  Edit Details
+                  ABORT
                 </button>
                 <button
                   type="button"
                   onClick={confirmAndSubmit}
-                  className="flex-1 bg-[#ffc61a] hover:bg-[#e6b10a] text-black py-3 rounded-lg font-bold shadow-md transition-all flex items-center justify-center gap-2"
+                  className="flex-1 btn-quantum font-bold tracking-widest flex items-center justify-center gap-2 text-[10px]"
                 >
-                  <CheckCircle2 className="w-5 h-5" />
-                  Confirm & Submit
+                  <CheckCircle2 className="w-4 h-4" />
+                  TRANSMIT
                 </button>
               </div>
             </motion.div>
@@ -201,36 +198,35 @@ export default function ComplaintForm() {
         )}
       </AnimatePresence>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4 font-mono">
         <div>
-          <label className="block text-sm font-bold text-slate-700 mb-1">Title</label>
-          <input value={title} onChange={e => setTitle(e.target.value)} placeholder="Brief title of your issue"
-            className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm bg-white focus:ring-2 focus:ring-[#ffc61a]/30 focus:border-[#ffc61a] outline-none transition-all" required />
+          <label className="block text-[10px] font-bold text-[#ccff00] uppercase tracking-widest mb-1">NODE_IDENTIFIER</label>
+          <input value={title} onChange={e => setTitle(e.target.value)} placeholder="ENTER_SHORT_IDENTIFIER"
+            className="w-full border border-[#39ff14]/30 rounded-none px-3 py-3 text-xs bg-[#0a0a0a] text-gray-200 placeholder:text-gray-500 focus:ring-1 focus:ring-[#ccff00] focus:border-[#ccff00] outline-none transition-all" required />
         </div>
         <div>
-          <label className="block text-sm font-bold text-slate-700 mb-1">Full Name</label>
-          <input value={user.name} disabled className="w-full border border-slate-100 rounded-lg px-3 py-2.5 text-sm bg-slate-50 text-slate-500 cursor-not-allowed" />
+          <label className="block text-[10px] font-bold text-[#ccff00] uppercase tracking-widest mb-1">USER_IDENTITY</label>
+          <input value={user.name} disabled className="w-full border border-[#39ff14]/10 rounded-none px-3 py-3 text-xs bg-[#0a0a0a]/50 text-gray-400 cursor-not-allowed uppercase tracking-wider" />
         </div>
 
-        {/* Two-tier Degree → Branch */}
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-bold text-slate-700 mb-1">Degree Program</label>
+            <label className="block text-[10px] font-bold text-[#ccff00] uppercase tracking-widest mb-1">PROG_SELECTION</label>
             <select value={degree} onChange={e => handleDegreeChange(e.target.value)}
-              className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm bg-white focus:ring-2 focus:ring-[#ffc61a]/30 focus:border-[#ffc61a] outline-none transition-all" required>
-              <option value="">Select Degree</option>
+              className="w-full border border-[#39ff14]/30 rounded-none px-3 py-3 text-xs bg-[#0a0a0a] text-gray-200 focus:ring-1 focus:ring-[#ccff00] focus:border-[#ccff00] outline-none transition-all uppercase" required>
+              <option value="">AWAITING_INPUT</option>
               {DEGREE_PROGRAMS.map(d => <option key={d} value={d}>{d}</option>)}
             </select>
           </div>
           <div>
-            <label className="block text-sm font-bold text-slate-700 mb-1">Branch / Department</label>
+            <label className="block text-[10px] font-bold text-[#ccff00] uppercase tracking-widest mb-1">BRANCH_SELECTION</label>
             <select value={branch} onChange={e => setBranch(e.target.value)}
               disabled={!degree}
-              className={`w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm outline-none transition-all duration-300 ${
-                !degree ? 'bg-slate-50 cursor-not-allowed opacity-60' : 'bg-white focus:ring-2 focus:ring-[#ffc61a]/30 focus:border-[#ffc61a]'
-              } ${branchAnimating ? 'animate-fade-in' : ''}`}
+              className={`w-full border border-[#39ff14]/30 rounded-none px-3 py-3 text-xs outline-none transition-all duration-300 uppercase ${
+                !degree ? 'bg-[#0a0a0a]/50 cursor-not-allowed opacity-50 text-gray-400 border-transparent' : 'bg-[#0a0a0a] text-gray-200 focus:ring-1 focus:ring-[#ccff00] focus:border-[#ccff00]'
+              }`}
               required>
-              <option value="">{degree ? 'Select Branch' : 'Select Degree first'}</option>
+              <option value="">{degree ? 'AWAITING_INPUT' : 'SELECT_PROG_FIRST'}</option>
               {availableBranches.map(b => <option key={b} value={b}>{b}</option>)}
             </select>
           </div>
@@ -238,18 +234,20 @@ export default function ComplaintForm() {
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-bold text-slate-700 mb-1">Category</label>
+            <label className="block text-[10px] font-bold text-[#ccff00] uppercase tracking-widest mb-1">CATEGORY_TAG</label>
             <select value={category} onChange={e => { setCategory(e.target.value as ComplaintCategory | ''); setSubCategory(''); }}
-              className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm bg-white focus:ring-2 focus:ring-[#ffc61a]/30 focus:border-[#ffc61a] outline-none transition-all" required>
-              <option value="">Select category</option>
+              className="w-full border border-[#39ff14]/30 rounded-none px-3 py-3 text-xs bg-[#0a0a0a] text-gray-200 focus:ring-1 focus:ring-[#ccff00] focus:border-[#ccff00] outline-none transition-all uppercase" required>
+              <option value="">AWAITING_INPUT</option>
               {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
             </select>
           </div>
           <div>
-            <label className="block text-sm font-bold text-slate-700 mb-1">Sub-Category</label>
+            <label className="block text-[10px] font-bold text-[#ccff00] uppercase tracking-widest mb-1">SUB_CLASS_TAG</label>
             <select value={subCategory} onChange={e => setSubCategory(e.target.value)}
-              className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm bg-white focus:ring-2 focus:ring-[#ffc61a]/30 focus:border-[#ffc61a] outline-none" disabled={!category}>
-              <option value="">Select sub-category</option>
+              className={`w-full border border-[#39ff14]/30 rounded-none px-3 py-3 text-xs outline-none uppercase ${
+                !category ? 'bg-[#0a0a0a]/50 cursor-not-allowed opacity-50 text-gray-400 border-transparent' : 'bg-[#0a0a0a] text-gray-200 focus:ring-1 focus:ring-[#ccff00] focus:border-[#ccff00]'
+              }`} disabled={!category}>
+              <option value="">AWAITING_INPUT</option>
               {availableSubCategories.map(sc => <option key={sc} value={sc}>{sc}</option>)}
             </select>
           </div>
@@ -257,42 +255,38 @@ export default function ComplaintForm() {
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-bold text-slate-700 mb-1">Routed To (Auto)</label>
+            <label className="block text-[10px] font-bold text-[#ccff00] uppercase tracking-widest mb-1">ROUTED_TO (AUTO)</label>
             <input value={department || '—'} disabled
-              className="w-full border border-slate-100 rounded-lg px-3 py-2.5 text-sm bg-slate-50 text-slate-500 cursor-not-allowed" />
-            <p className="text-[10px] text-slate-400 mt-0.5">Auto-assigned based on category selection.</p>
+              className="w-full border border-[#39ff14]/10 rounded-none px-3 py-3 text-xs bg-[#0a0a0a]/50 text-gray-400 cursor-not-allowed uppercase" />
           </div>
           <div>
-            <label className="block text-sm font-bold text-slate-700 mb-1">Urgency Level</label>
+            <label className="block text-[10px] font-bold text-[#ccff00] uppercase tracking-widest mb-1">PRIORITY_OVERRIDE</label>
             <select value={urgency} onChange={e => setUrgency(e.target.value as UrgencyLevel)}
-              className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm bg-white focus:ring-2 focus:ring-[#d4af37]/30 outline-none">
-              <option value="Low">Low</option>
-              <option value="Medium">Medium</option>
-              <option value="High">High</option>
+              className="w-full border border-[#39ff14]/30 rounded-none px-3 py-3 text-xs bg-[#0a0a0a] text-gray-200 focus:ring-1 focus:ring-[#ccff00] outline-none uppercase">
+              <option value="Low">LOW_PRIORITY</option>
+              <option value="Medium">MEDIUM_PRIORITY</option>
+              <option value="High">HIGH_PRIORITY</option>
             </select>
             {subCategory && URGENT_SUB_CATEGORIES.includes(subCategory) && (
-              <p className="text-[10px] text-red-600 font-bold mt-0.5 animate-pulse">⚠ Auto-marked HIGH due to critical sub-category.</p>
+              <p className="text-[9px] text-[#ff073a] tracking-widest uppercase font-bold mt-1 animate-pulse">⚠ AUTO_ELEVATED: HIGH</p>
             )}
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-bold text-slate-700 mb-1">Query Description</label>
+          <label className="block text-[10px] font-bold text-[#ccff00] uppercase tracking-widest mb-1">PAYLOAD_DATA</label>
           <textarea value={description} onChange={e => setDescription(e.target.value)} rows={4}
-            placeholder="Describe the issue in detail"
-            className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm bg-white resize-y focus:ring-2 focus:ring-[#ffc61a]/30 focus:border-[#ffc61a] outline-none transition-all" required />
+            placeholder="ENTER_DETAILS..."
+            className="w-full border border-[#39ff14]/30 rounded-none px-3 py-3 text-xs bg-[#0a0a0a] text-gray-200 placeholder:text-gray-500 resize-y focus:ring-1 focus:ring-[#ccff00] focus:border-[#ccff00] outline-none transition-all uppercase" required />
         </div>
         <div>
-          <label className="block text-sm font-bold text-slate-700 mb-1">Upload Image</label>
-          <input type="file" accept="image/*" className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white" />
-          <p className="text-xs text-slate-400 mt-1">Optional: Upload a photo as proof of the issue.</p>
+          <label className="block text-[10px] font-bold text-[#ccff00] uppercase tracking-widest mb-1">ATTACH_BINARY</label>
+          <input type="file" accept="image/*" className="w-full border border-[#39ff14]/30 rounded-none px-3 py-2 text-xs bg-[#0a0a0a] text-gray-200 file:bg-[#39ff14]/20 file:border-0 file:text-[#39ff14] file:px-2 file:py-1 file:uppercase file:font-mono file:text-[10px] file:tracking-widest" />
+          <p className="text-[9px] text-[#39ff14]/40 mt-1 uppercase tracking-widest">OPTIONAL: ATTACH_IMAGE_PAYLOAD</p>
         </div>
-        <button type="submit" className="w-full bg-[#ffc61a] hover:bg-[#e6b10a] text-black py-3 rounded-lg font-bold shadow-md hover:shadow-lg transition-all transform active:scale-[0.98]">
-          Submit to Level 1 (Assigned Employee)
+        <button type="submit" className="w-full btn-quantum font-bold tracking-widest py-3 mt-2 text-xs">
+          TRANSMIT_TO_LEVEL_1
         </button>
-        <div className="bg-slate-50 rounded-lg p-3 border-l-4 border-[#ffc61a]">
-          <p className="text-xs text-slate-600"><span className="font-bold text-slate-800">Reference Desk:</span> Keep your submission factual and concise for faster processing.</p>
-        </div>
       </form>
     </div>
   );

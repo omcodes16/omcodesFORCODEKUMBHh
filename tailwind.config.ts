@@ -13,6 +13,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ["Inter", "system-ui", "sans-serif"],
+        mono: ["JetBrains Mono", "monospace"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -58,16 +59,11 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        jec: {
-          amber: "hsl(var(--jec-amber))",
-          "amber-dark": "hsl(var(--jec-amber-dark))",
-          gold: "hsl(var(--jec-gold))",
-          "gold-light": "hsl(var(--jec-gold-light))",
-          cream: "hsl(var(--jec-cream))",
-          "cream-dark": "hsl(var(--jec-cream-dark))",
-          success: "hsl(var(--jec-success))",
-          warning: "hsl(var(--jec-warning))",
-          danger: "hsl(var(--jec-danger))",
+        quantum: {
+          azure: "hsl(var(--quantum-azure))",
+          green: "hsl(var(--quantum-green))",
+          yellow: "hsl(var(--quantum-yellow))",
+          red: "hsl(var(--quantum-red))",
         },
       },
       borderRadius: {
@@ -84,10 +80,36 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "quantum-stream": {
+          "0%": { backgroundPosition: "0% 0%" },
+          "100%": { backgroundPosition: "100% 100%" },
+        },
+        "booting-flicker": {
+          "0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100%": {
+            opacity: "0.99",
+            textShadow: "0 0 8px rgba(57, 255, 20, 0.4)",
+          },
+          "20%, 21.999%, 63%, 63.999%, 65%, 69.999%": {
+            opacity: "0.4",
+            textShadow: "none",
+          },
+        },
+        "led-pulse": {
+          "0%, 100%": { opacity: "1", boxShadow: "0 0 10px currentColor" },
+          "50%": { opacity: "0.5", boxShadow: "0 0 2px currentColor" },
+        },
+        "hologram-scan": {
+          "0%": { transform: "translateY(-100%)" },
+          "100%": { transform: "translateY(100%)" },
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "quantum-stream": "quantum-stream 5s linear infinite",
+        "booting-flicker": "booting-flicker 3s linear infinite",
+        "led-pulse": "led-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "hologram-scan": "hologram-scan 3s linear infinite",
       },
     },
   },
